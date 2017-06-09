@@ -86,19 +86,15 @@ namespace Google.Protobuf.Examples.AddressBook
       AddressBook addressBook;
       Xml.AddressBook xmlAddressBook;
       Json.AddressBook jsonAddressBook;
-      long protoRead = 0, protoSave = 0, protoGen = 0, protoLength = 0, protoCount = 0,
-        xmlRead = 0, xmlSave = 0, xmlGen = 0, xmlLength = 0, xmlCount = 0,
-      jsonRead = 0, jsonSave = 0, jsonGen = 0, jsonLength = 0, jsonCount = 0;
+      long protoSave = 0, protoGen = 0, protoCount = 0,
+        xmlSave = 0, xmlGen = 0, xmlCount = 0,
+      jsonSave = 0, jsonGen = 0, jsonCount = 0;
 
       if (File.Exists(args[0]))
       {
-        watch.Restart();
         using (Stream file = File.OpenRead(args[0]))
         {
           addressBook = AddressBook.Parser.ParseFrom(file);
-          watch.Stop();
-          protoRead = watch.ElapsedMilliseconds;
-          protoLength = file.Length;
         }
       }
       else
@@ -109,14 +105,10 @@ namespace Google.Protobuf.Examples.AddressBook
 
       if (File.Exists(args[1]))
       {
-        watch.Restart();
         using (Stream file = File.OpenRead(args[1]))
         {
           XmlSerializer xmlSerializer = new XmlSerializer(typeof(Xml.AddressBook));
           xmlAddressBook = xmlSerializer.Deserialize(file) as Xml.AddressBook;
-          watch.Stop();
-          xmlRead = watch.ElapsedMilliseconds;
-          xmlLength = file.Length;
         }
       }
       else
@@ -127,15 +119,11 @@ namespace Google.Protobuf.Examples.AddressBook
 
       if (File.Exists(args[2]))
       {
-        watch.Restart();
         using (StreamReader stream = new StreamReader(args[2]))
         {
           JsonSerializer serializer = new JsonSerializer();
           JsonTextReader reader = new JsonTextReader(stream);
           jsonAddressBook = serializer.Deserialize(reader, typeof(Json.AddressBook)) as Json.AddressBook;
-          watch.Stop();
-          jsonLength = stream.BaseStream.Length;
-          jsonRead = watch.ElapsedMilliseconds;
         }
       }
       else
@@ -235,22 +223,16 @@ namespace Google.Protobuf.Examples.AddressBook
       jsonSave = watch.ElapsedMilliseconds;
 
       Console.WriteLine("*****Protocole Buffer*****");
-      Console.WriteLine($"File size (bytes): {protoLength}");
-      Console.WriteLine($"Time to read(ms): {protoRead}");
       Console.WriteLine($"Time to generate {nPersons} records (ms): {protoGen}");
       Console.WriteLine($"Total records: {protoCount}");
       Console.WriteLine($"Time to save(ms): {protoSave}");
 
       Console.WriteLine("*****Xml*****");
-      Console.WriteLine($"File size (bytes): {xmlLength}");
-      Console.WriteLine($"Time to read(ms): {xmlRead}");
       Console.WriteLine($"Time to generate {nPersons} records (ms): {xmlGen}");
       Console.WriteLine($"Total records: {xmlCount}");
       Console.WriteLine($"Time to save(ms): {xmlSave}");
 
       Console.WriteLine("*****Json*****");
-      Console.WriteLine($"File size (bytes): {jsonLength}");
-      Console.WriteLine($"Time to read(ms): {jsonRead}");
       Console.WriteLine($"Time to generate {nPersons} records (ms): {jsonGen}");
       Console.WriteLine($"Total records: {jsonCount}");
       Console.WriteLine($"Time to save(ms): {jsonSave}");
