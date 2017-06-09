@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="addressbook"
+    targetNamespace="http://tempuri.org/addressbook.xsd"
+    elementFormDefault="qualified"
+    xmlns="http://tempuri.org/addressbook.xsd"
+    xmlns:mstns="http://tempuri.org/addressbook.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:complexType  name="Person">
+    <xs:sequence>
+      <xs:element name="Name"  type="xs:string"/>
+      <xs:element name="Id"    type="xs:unsignedInt"/>
+      <xs:element name="Email"  type="xs:string"/>
+      <xs:element name="Phones">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="PhoneNumber" minOccurs="0" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="Number" type="xs:string"/>
+                  <xs:element name="Type">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:token">
+                        <xs:enumeration value="Mobile" />
+                        <xs:enumeration value="Home" />
+                        <xs:enumeration value="Work" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                </xs:sequence>                
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>        
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="AddressBook">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="people" type="mstns:Person"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>  
+</xs:schema>

@@ -1,0 +1,73 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-0/schema",
+  "type": "object",
+  "title": "AddressBook",
+  "additionalProperties": false,
+  "properties": {
+    "People": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/Person"
+      }
+    }
+  },
+  "definitions": {
+    "PhoneType": {
+      "type": "string",
+      "enum": [
+        "Mobile",
+        "Home",
+        "Work"
+      ],
+      "description": ""
+    },
+    "PhoneNumber": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Number": {
+          "type": "string"
+        },
+        "Type": {
+          "oneOf": [
+            {
+              "$ref": "#/definitions/PhoneType"
+            }
+          ]
+        }
+      }
+    },
+    "Person": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Name",
+        "Id",
+        "Email"
+      ],
+      "properties": {
+        "Name": {
+          "type": "string"
+        },
+        "Id": {
+          "type": "integer"
+        },
+        "Email": {
+          "type": "string"
+        },
+        "Phones": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/PhoneNumber"
+          }
+        }
+      }
+    }
+  }
+}
